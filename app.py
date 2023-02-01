@@ -12,6 +12,7 @@ def registrations(student_id):
      )
           # SELECT courses.name, courses.id from courses JOIN students_courses on students_courses.course_id=courses.id where students_courses.student_id=1
           #select students.name, id from students where id=1 UNION SELECT courses.name, courses.id from courses JOIN students_courses on students_courses.course_id=courses.id where students_courses.student_id=1
+          #test
      return render_template("registrations.html", courses=course_names)
 
 @app.route('/register/<student_id>/<course_id>')
