@@ -23,5 +23,8 @@ def register(student_id, course_id):
           return "student is already registered to this course"
      return redirect(url_for('registrations', student_id=student_id))
 
+def test():
+     print("done by tal-training")
+
 if __name__ == '__main__':
     app.run(debug=True)
