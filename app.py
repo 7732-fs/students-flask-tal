@@ -24,7 +24,7 @@ def register(student_id, course_id):
      return redirect(url_for('registrations', student_id=student_id))
 
 def test():
-     print("done by tal-training")
+     print("branche by tal-training")
 
 if __name__ == '__main__':
     app.run(debug=True)
