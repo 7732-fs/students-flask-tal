@@ -31,9 +31,10 @@ def create_tables():
      execute_query("""CREATE TABLE IF NOT EXISTS students_courses (
           id INTEGER PRIMARY KEY,
           student_id INTEGER, 
-          course_id INTEGER UNIQUE,
+          course_id INTEGER,
           FOREIGN KEY (student_id) REFERENCES students (id),
-          FOREIGN KEY (course_id) REFERENCES courses (id)
+          FOREIGN KEY (course_id) REFERENCES courses (id), 
+          UNIQUE(student_id, course_id)
      )
      """)
 

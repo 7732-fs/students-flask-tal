@@ -11,12 +11,8 @@ def registrations(student_id):
      SELECT students.name, id FROM students WHERE students.id={student_id} UNION SELECT name, teacher from courses WHERE courses.id IN 
           (SELECT course_id FROM students_courses WHERE student_id={student_id})"""
      )
-          # SELECT courses.name, courses.id from courses JOIN students_courses on students_courses.course_id=courses.id where students_courses.student_id=1
-          #select students.name, id from students where id=1 UNION SELECT courses.name, courses.id from courses JOIN students_courses on students_courses.course_id=courses.id where students_courses.student_id=1
-          #test
-     Course=namedtuple("Course", ["name", "teacher"])
-     course_objects=[Course(*c) for c in course_names[1:]]
-     student=course_names[0][0]
+     course_objects=[namedtuple("Course", ["name", "teacher"])(*c) for c in course_names[1:]]
+     student=course_names[0][0] # TODO: use namedtuple here also
      return render_template("registrations.html", student=student, courses=course_objects)
 
 @app.route('/register/<student_id>/<course_id>')
