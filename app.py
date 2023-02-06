@@ -1,19 +1,23 @@
 from flask import Flask, request, url_for, render_template, redirect
 from setup_db import execute_query
 from sqlite3 import IntegrityError
+from collections import namedtuple
 
 app = Flask(__name__)
 
 @app.route('/registrations/<student_id>')
 def registrations(student_id):
      course_names=execute_query(f"""
-     SELECT students.name FROM students WHERE students.id={student_id} UNION SELECT name from courses WHERE courses.id IN 
+     SELECT students.name, id FROM students WHERE students.id={student_id} UNION SELECT name, teacher from courses WHERE courses.id IN 
           (SELECT course_id FROM students_courses WHERE student_id={student_id})"""
      )
           # SELECT courses.name, courses.id from courses JOIN students_courses on students_courses.course_id=courses.id where students_courses.student_id=1
           #select students.name, id from students where id=1 UNION SELECT courses.name, courses.id from courses JOIN students_courses on students_courses.course_id=courses.id where students_courses.student_id=1
           #test
-     return render_template("registrations.html", courses=course_names)
+     Course=namedtuple("Course", ["name", "teacher"])
+     course_objects=[Course(*c) for c in course_names[1:]]
+     student=course_names[0][0]
+     return render_template("registrations.html", student=student, courses=course_objects)
 
 @app.route('/register/<student_id>/<course_id>')
 def register(student_id, course_id):

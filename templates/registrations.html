@@ -7,9 +7,10 @@
      <title>Registrations</title>
 </head>
 <body>
-     {{ student }}
+     Student: {{ student }}<p>
      {% for course in courses %}
-     {{ course }}
+          Course Name: {{ course.name }} <br>
+          Course Teacher: {{ course.teacher }}<p>
      {% endfor %}
 </body>
 </html>
