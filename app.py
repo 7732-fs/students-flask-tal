@@ -1,9 +1,36 @@
-from flask import Flask, request, url_for, render_template, redirect
+from flask import Flask, request, url_for, render_template, redirect, abort, session
 from setup_db import execute_query
 from sqlite3 import IntegrityError
 from collections import namedtuple
 
 app = Flask(__name__)
+
+app.secret_key="aaasa"
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+     if request.method=='POST':
+          if (request.form["username"], request.form["password"]) == ('admin', 'admin'):
+               session["username"]='admin'
+               session["role"]='admin'
+               return redirect(url_for('home'))
+          else:
+               return abort(403)
+     return render_template('login.html')
+
+@app.before_request
+def auth():
+     if "role" not in session.keys():
+          session["username"]='anonymous'
+          session["role"]='anonymous'
+     if session["role"] not in ['admin']:
+          if 'register' in request.full_path:
+               return abort(403)
+
+@app.route("/")
+def home():
+     return render_template('index.html')
+
 
 @app.route('/registrations/<student_id>')
 def registrations(student_id):
